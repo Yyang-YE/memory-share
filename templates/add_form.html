@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>추억 추가</title>
+    <style>
+        .title {
+            background-color: rgb(170, 199, 211);
+            color: white;
+            margin-bottom: 75px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(170, 199, 211);
+            font-size: 20px;
+        }
+
+        .navbar_menu {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .navbar_menu_list {
+            margin-right: 20px;
+        }
+
+        .input {
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: baseline;
+            align-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="home_logo">
+        </div>
+        <div>
+            <ul class="navbar_menu">
+                <li class="navbar_menu_list"><a href="{{ url_for('memory') }}">Home</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('create') }}">Add</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('home') }}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class=title>
+        <h1>추억 공유장</h1>
+        <p>당신의 추억을 추가해주세요</p>
+    </div>
+    <form action="{{ url_for('memory_create') }}" method="GET">
+        <div class="input">
+            <div>사진 URL: <input type="text" name="image"></div>
+            <div>날짜: <input type="text" name="date"></div>
+            <div>장소: <input type="text" name="place"></div>
+            <div>한 줄 설명: <input type="text" name="explanation"></div>
+        </div>
+        <button type="submit" class="confirm_btn">확인</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="home_logo">
+        </div>
+        <div>
+            <ul class="navbar_menu">
+                <li class="navbar_menu_list"><a href="{{ url_for('memory') }}">Home</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('create') }}">Add</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('edit') }}">Edit</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('home') }}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class=title>
+        <h1>추억 공유장</h1>
+        <p>소중한 사람들의 추억을 함께 공유해보세요</p>
+    </div>
+    
+</body>
+</html>

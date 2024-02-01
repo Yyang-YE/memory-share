@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤 메모리</title>
+    <style>
+        .title {
+            background-color: rgb(170, 199, 211);
+            color: white;
+            margin-bottom: 75px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(170, 199, 211);
+            font-size: 20px;
+        }
+
+        .navbar_menu {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .navbar_menu_list {
+            margin-right: 20px;
+        }
+
+        img {
+            max-width: 40%;
+            max-height: auto;
+            display: block;
+            margin: auto;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .info {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .edit_button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .edit_btn {
+            margin-right: 50px;
+        }
+
+        .subject {
+            margin-left: 20px;
+        }
+    </style>
+    <meta property="og:title" content="추억 공유장" />
+    <meta property="og:description" content="뭐쓰지..." />
+    <meta property="og:image" content="https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1584343575909-be1d8462ecea%3Fcrop%3Dfaces%252Cedges%26cs%3Dtinysrgb%26fit%3Dcrop%26fm%3Djpg%26ixid%3DMnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjc1NzA5Njg2%26ixlib%3Drb-4.0.3%26q%3D60%26w%3D1200%26auto%3Dformat%26h%3D630%26mark-w%3D64%26mark-align%3Dtop%252Cleft%26mark-pad%3D50%26blend-mode%3Dnormal%26blend-alpha%3D10%26blend-w%3D1%26mark%3Dhttps%253A%252F%252Fimages.unsplash.com%252Fopengraph%252Flogo.png%26blend%3D000000&type=sc960_832" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="home_logo">
+        </div>
+        <div>
+            <ul class="navbar_menu">
+                <li class="navbar_menu_list"><a href="{{ url_for('memory') }}">Home</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('create') }}">Add</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('home') }}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class=title>
+        <h1>추억 공유장</h1>
+        <p>소중한 사람들의 추억을 함께 공유해보세요</p>
+    </div>
+
+    <button onclick="window.location.reload()">추억 보기</button>
+    <h2 class="subject">메모리님의 추억</h2>
+
+    <div class="memory">
+        <img src="{{ data.image }}" alt="이미지...">
+        <div class="content">
+            <div class="info date">{{ data.date }}</div>
+            <div class="info place">
+                <{{ data.place }}>
+            </div>
+            <div>한줄 설명: {{data.explanation}}</div>
+        </div>
+    </div>
+    <div class="edit_button">
+        <form action="{{ url_for('edit')}}" method="GET">
+            <input type="hidden" name="id" value="{{ data.id }}">
+            <a class="edit_btn" href="{{ url_for('edit') }}"><button type="submit">수정하기</button></a>
+        </form>
+
+        <form action="{{ url_for('delete')}}" method="GET">
+            <input type="hidden" name="id" value="{{ data.id }}">
+            <a class="delete_btn" href="{{ url_for('delete') }}"><button type="submit">삭제하기</button></a>
+        </form>
+    </div>
+
+
+</body>
+</html>

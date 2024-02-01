@@ -58,14 +58,18 @@ def mem_register():
     password_receive = request.args.get("password")
 
     if not all([username_receive, id_receive, password_receive]):
-        flash('모든 정보를 기입해주세요')
-        return render_template('register.html')
+        msg = '모든 정보를 기입해주세요.'
+        return render_template('register.html', data=msg)
     else:
-        user = User(username=username_receive, id=id_receive, password=password_receive)
-        db.session.add(user)
-        db.session.commit()
-        flash('가입이 완료되었습니다!')
-        return render_template('login.html')
+        if User.query.filter_by(id=id_receive).all():
+            msg = '이미 존재하는 아이디입니다.'
+            return render_template('register.html', data=msg)
+        else:
+            user = User(username=username_receive, id=id_receive, password=password_receive)
+            db.session.add(user)
+            db.session.commit()
+            flash('가입이 완료되었습니다! 로그인 페이지로 이동합니다.')
+            return render_template('login.html')
 
 #로그인화면
 @app.route('/login/')
@@ -80,26 +84,22 @@ def mem_login():
     user = User.query.filter_by(id=id_receive).first()
 
     if not all([id_receive, password_receive]):
-        flash('모든 정보를 기입해주세요')
-        return render_template('login.html')
+        msg = "빈칸을 모두 채워주세요"
+        return render_template('login.html', data=msg)
     else:
-        if not user:
-            flash('존재하지 않는 id 입니다.')
-            return render_template('login.html')
+        if not user or user.id != user.id or password_receive != user.password:
+            msg = "아이디 및 비밀번호를 다시 확인해주세요"
+            return render_template('login.html', data=msg)
         else:
-            if password_receive != user.password:
-                flash('비밀번호를 다시 확인해주세요.')
-                return render_template('login.html')
-            else:
-                # payload = {
-                #     'id': user.id,
-                #     'password': user.password,
-                #     'username': user.username,
-                #     'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
-                # }
+            # payload = {
+            #     'id': user.id,
+            #     'password': user.password,
+            #     'username': user.username,
+            #     'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
+            # }
 
-                # token = jwt.enconde(payload, SECRET_KEY, algorithm='HS256')
-                return redirect(url_for('memory'))
+            # token = jwt.enconde(payload, SECRET_KEY, algorithm='HS256')
+            return redirect(url_for('memory'))
 
 @app.route('/memory/')
 def memory():

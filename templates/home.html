@@ -5,12 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메모리 쉐어</title>
+    <style>
+        .title {
+            background-color: rgb(170, 199, 211);
+            color: white;
+            margin-bottom: 75px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #login_button {
+            margin-right: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Home of memory share</h1> <br>
-    <a class="button" href="{{ url_for('login') }}"><button>로그인하기</button></a>
-    <a class="button" href="{{ url_for('register') }}"><button>회원 가입</button></a>
+    <div class="title">
+        <h1>추억 공유장</h1>
+        <p>소중한 사람들의 추억을 함께 공유해보세요</p>
+    </div>
+    <div class="button">
+        <a id="login_button" href="{{ url_for('login') }}"><button>로그인하기</button></a>
+        <a id="reg_button" href="{{ url_for('register') }}"><button>회원 가입</button></a>
+    </div>
 </body>
 
 </html>

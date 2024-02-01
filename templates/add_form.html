@@ -62,9 +62,12 @@
         <h1>추억 공유장</h1>
         <p>당신의 추억을 추가해주세요</p>
     </div>
-    <form action="{{ url_for('memory_create') }}" method="GET">
+    <form action="{{ url_for('memory_create') }}" method="post" enctype="multipart/form-data">
         <div class="input">
-            <div>사진 URL: <input type="text" name="image"></div>
+            <div>
+                <label for="file">파일 선택:</label>
+                <input type="file" id="file" name="file" accept="image/*">
+            <div>
             <div>날짜: <input type="text" name="date"></div>
             <div>장소: <input type="text" name="place"></div>
             <div>한 줄 설명: <input type="text" name="explanation"></div>

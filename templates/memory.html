@@ -63,8 +63,11 @@
             margin-right: 50px;
         }
 
-        .subject {
-            margin-left: 20px;
+        .look {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
     </style>
     <meta property="og:title" content="추억 공유장" />
@@ -90,11 +93,13 @@
         <p>소중한 사람들의 추억을 함께 공유해보세요</p>
     </div>
 
-    <button onclick="window.location.reload()">추억 보기</button>
-    <h2 class="subject">메모리님의 추억</h2>
+    <div class="look">
+        <button onclick="window.location.reload()">추억 보기</button>
+        <h2><메모리님의 추억></h2>
+    </div>
 
     <div class="memory">
-        <img src="{{ data.image }}" alt="이미지...">
+        <img src="{{ url_for('static', filename=data.image) }}" alt="이미지...">
         <div class="content">
             <div class="info date">{{ data.date }}</div>
             <div class="info place">
@@ -114,7 +119,6 @@
             <a class="delete_btn" href="{{ url_for('delete') }}"><button type="submit">삭제하기</button></a>
         </form>
     </div>
-
 
 </body>
 </html>

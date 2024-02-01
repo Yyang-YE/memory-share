@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, url_for, jsonify, make_response, session, flash, redirect
-import jwt
-from datetime import datetime, timedelta
+from flask import Flask, render_template, request, url_for, flash, redirect
+from werkzeug.utils import secure_filename
+
 # from functools import wraps
 import random
 
@@ -10,11 +10,14 @@ from flask_sqlalchemy import SQLAlchemy
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
+UPLOAD_FOLDER = 'static'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 app.secret_key = 'be46366e89d9440ca2d8f8fbe05df574'
 app.config['SQLALCHEMY_DATABASE_URI'] =\
     'sqlite:///' + os.path.join(basedir, 'database.db')
 db = SQLAlchemy(app)
-
 
 class User(db.Model):
     username = db.Column(db.String(50), nullable=False)
@@ -23,7 +26,6 @@ class User(db.Model):
 
     def __repr__(self):
         return f'{self.username} {self.id} {self.password}'
-
 
 class Memory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,8 +70,8 @@ def mem_register():
             user = User(username=username_receive, id=id_receive, password=password_receive)
             db.session.add(user)
             db.session.commit()
-            flash('가입이 완료되었습니다! 로그인 페이지로 이동합니다.')
-            return render_template('login.html')
+            msg = '가입이 완료되었습니다! 로그인 페이지로 이동합니다.'
+            return render_template('login.html', data=msg)
 
 #로그인화면
 @app.route('/login/')
@@ -113,20 +115,23 @@ def create():
     return render_template('add_form.html')
 
 
-@app.route('/memory/create/')
+@app.route('/memory/create/', methods=['GET', 'POST'])
 def memory_create():
-    image_receive = request.args.get("image")
-    date_receive = request.args.get("date")
-    place_receive = request.args.get("place")
-    exp_receive = request.args.get("explanation")
+    if request.method == 'POST':
+        date_receive = request.form['date']
+        place_receive = request.form['place']
+        exp_receive = request.form['explanation']
 
-    if not all([image_receive, date_receive, place_receive, exp_receive]):
-        return render_template('add_form.html')
-
-    memory = Memory(image=image_receive, date=date_receive,
-                    place=place_receive, explanation=exp_receive)
-    db.session.add(memory)
-    db.session.commit()
+        f = request.files['file']
+        if f and date_receive and place_receive and exp_receive:
+            # secure_filename 함수를 사용하여 안전하게 파일 이름을 설정
+            filename = secure_filename(f.filename)
+            # 업로드된 파일을 설정한 동적 폴더에 저장
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # 데이터베이스에 경로 및 기타 정보 저장
+            memory = Memory(image=filename, date=date_receive, place=place_receive, explanation=exp_receive)
+            db.session.add(memory)
+            db.session.commit()
     return render_template('add_form.html')
 
 @app.route('/edit/', methods=['GET'])

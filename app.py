@@ -128,6 +128,9 @@ def memory_create():
             filename = secure_filename(f.filename)
             # 업로드된 파일을 설정한 동적 폴더에 저장
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # 배포용 저장 경로
+            # f.save('/home/yyan392/mysite/static/' + filename)
+
             # 데이터베이스에 경로 및 기타 정보 저장
             memory = Memory(image=filename, date=date_receive, place=place_receive, explanation=exp_receive)
             db.session.add(memory)

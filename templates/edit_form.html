@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>추억 추가</title>
+    <title>추억 수정하기</title>
     <style>
         .title {
             background-color: rgb(170, 199, 211);
@@ -38,9 +38,25 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: baseline;
             align-content: center;
             flex-wrap: wrap;
+        }
+
+        #exp_in {
+            margin-top: 5px;
+            height: 80px;
+            width: 280px;
+        }
+
+        .confirm_btn {
+            margin-top: 20px;
+            text-align: center;
+        }
+        img {
+            max-width: 350px;
+            max-height: 350px;
+            display: block;
+            margin: auto;
         }
     </style>
 </head>
@@ -52,6 +68,7 @@
         <div>
             <ul class="navbar_menu">
                 <li class="navbar_menu_list"><a href="{{ url_for('memory') }}">Home</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('show_all') }}">ALL</a></li>
                 <li class="navbar_menu_list"><a href="{{ url_for('create') }}">Add</a></li>
                 <li class="navbar_menu_list"><a href="{{ url_for('home') }}">Logout</a></li>
             </ul>
@@ -62,15 +79,19 @@
         <h1>추억 공유장</h1>
         <p>당신의 추억에 관해 설명해주세요</p>
     </div>
+
+    <img src="{{ url_for('static', filename=data.image) }}" alt="">
     <form action="{{ url_for('memory_edit') }}" method="GET">
         <div class="input">
-            <div>사진 URL: <input type="text" value="{{ data.image }}" name="image"></div>
             <div>날짜: <input type="text" value="{{ data.date }}" name="date"></div>
             <div>장소: <input type="text" value="{{ data.place }}" name="place"></div>
-            <div>한 줄 설명: <input type="text" value="{{ data.explanation }}" name="explanation"></div>
+            <div>한 줄 설명:<br><textarea id="exp_in" name="explanation">{{ data.explanation }}</textarea></div>
             <input type="hidden" name="id" value="{{ data.id }}">
         </div>
-        <button type="submit" class="confirm_btn">확인</button>
+        <div class="confirm_btn">
+            <button type="submit">확인</button>
+        </div>
     </form>
 </body>
+
 </html>

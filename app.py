@@ -52,7 +52,6 @@ def register():
     return render_template('register.html')
 
 # 회원정보 DB에 저장하기
-#그냥 data를 함께 전달해서 modal 띄우기로 하는게....
 @app.route('/member/register/', methods=['GET', 'POST'])
 def mem_register():
     username_receive = request.args.get("username")
@@ -73,12 +72,12 @@ def mem_register():
             msg = '가입이 완료되었습니다! 로그인 페이지로 이동합니다.'
             return render_template('login.html', data=msg)
 
-#로그인화면
+# 로그인 화면
 @app.route('/login/')
 def login():
     return render_template('login.html')
 
-# 로그인, 토큰 발급
+# 로그인(jwt 활용법 따로 공부하기...)
 @app.route('/member/login/', methods=['GET', 'POST'])
 def mem_login():
     id_receive = request.args.get("id")
@@ -93,28 +92,21 @@ def mem_login():
             msg = "아이디 및 비밀번호를 다시 확인해주세요"
             return render_template('login.html', data=msg)
         else:
-            # payload = {
-            #     'id': user.id,
-            #     'password': user.password,
-            #     'username': user.username,
-            #     'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
-            # }
-
-            # token = jwt.enconde(payload, SECRET_KEY, algorithm='HS256')
             return redirect(url_for('memory'))
 
+# 로그인 후 홈화면
 @app.route('/memory/')
 def memory():
     memory_list = Memory.query.all()
     memory_choice = random.choice(memory_list)
     return render_template('memory.html', data=memory_choice)
 
-
+# 추억 추가 form
 @app.route('/create/')
 def create():
     return render_template('add_form.html')
 
-
+# 추억 추가하기
 @app.route('/memory/create/', methods=['GET', 'POST'])
 def memory_create():
     if request.method == 'POST':
@@ -124,25 +116,24 @@ def memory_create():
 
         f = request.files['file']
         if f and date_receive and place_receive and exp_receive:
-            # secure_filename 함수를 사용하여 안전하게 파일 이름을 설정
             filename = secure_filename(f.filename)
-            # 업로드된 파일을 설정한 동적 폴더에 저장
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            # 배포용 저장 경로
+            # pythonanywhere 배포용 저장 경로
             # f.save('/home/yyan392/mysite/static/' + filename)
 
-            # 데이터베이스에 경로 및 기타 정보 저장
             memory = Memory(image=filename, date=date_receive, place=place_receive, explanation=exp_receive)
             db.session.add(memory)
             db.session.commit()
     return render_template('add_form.html')
 
+# 수정 form
 @app.route('/edit/', methods=['GET'])
 def edit():
     id_receive = request.args.get("id")
     data = Memory.query.filter_by(id=id_receive).first()
     return render_template('edit_form.html', data=data)
 
+# 수정하기
 @app.route('/memory/edit/', methods=['GET'])
 def memory_edit():
     id_receive = request.args.get("id")
@@ -153,11 +144,9 @@ def memory_edit():
 
     data = Memory.query.filter_by(id=id_receive).first()
 
-    if not all([image_receive, date_receive, place_receive, exp_receive]):
+    if not all([place_receive, exp_receive]):
         return render_template('edit_form.html', data=data)
-
-    if data.image != image_receive:
-        data.image = image_receive
+    
     if data.date != date_receive:
         data.date = date_receive
     if data.place != place_receive:
@@ -168,6 +157,7 @@ def memory_edit():
     db.session.commit()
     return redirect(url_for('memory'))
 
+# 삭제하기
 @app.route('/delete/')
 def delete():
     id_receive = request.args.get("id")
@@ -175,6 +165,12 @@ def delete():
     db.session.delete(data)
     db.session.commit()
     return redirect(url_for('memory'))
+
+# 전체 조회
+@app.route('/show/all/', methods=['GET'])
+def show_all():
+    data = Memory.query.all()
+    return render_template('show.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)

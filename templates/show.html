@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전체 조회</title>
+    <style>
+        .title {
+            background-color: rgb(170, 199, 211);
+            color: white;
+            margin-bottom: 75px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(170, 199, 211);
+            font-size: 20px;
+        }
+
+        .navbar_menu {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .navbar_menu_list {
+            margin-right: 20px;
+        }
+
+        table {
+            align-items: center;
+            border-collapse: collapse;
+            margin: auto;
+            max-width: 80vw;
+        }
+
+        .exp {
+            background-color: rgb(209, 209, 209);
+            border: 1px solid black;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="home_logo">
+        </div>
+        <div>
+            <ul class="navbar_menu">
+                <li class="navbar_menu_list"><a href="{{ url_for('memory') }}">Home</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('show_all') }}">ALL</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('create') }}">Add</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('home') }}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class=title>
+        <h1>추억 공유장</h1>
+        <p>소중한 사람들의 추억을 함께 공유해보세요</p>
+    </div>
+
+        <table border="1px">
+            <tr class="exp">
+                <th>이미지</th>
+                <th>날짜</th>
+                <th>장소</th>
+                <th>한 줄 설명</th>
+            </tr>
+
+            {% for memory in data %}
+            <tr>
+                <td><img src="{{ url_for('static', filename=memory.image) }}" alt="" width="200"></td>
+                <td>{{ memory.date }}</td>
+                <td>{{ memory.place }}</td>
+                <td>{{ memory.explanation }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+</body>
+
+</html>

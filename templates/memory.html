@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>랜덤 메모리</title>
+    <title>추억 공유장</title>
     <style>
         .title {
             background-color: rgb(170, 199, 211);
@@ -35,7 +35,7 @@
 
         img {
             max-width: 40%;
-            max-height: auto;
+            max-height: 40vw;
             display: block;
             margin: auto;
         }
@@ -70,9 +70,6 @@
             align-items: center;
         }
     </style>
-    <meta property="og:title" content="추억 공유장" />
-    <meta property="og:description" content="뭐쓰지..." />
-    <meta property="og:image" content="https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1584343575909-be1d8462ecea%3Fcrop%3Dfaces%252Cedges%26cs%3Dtinysrgb%26fit%3Dcrop%26fm%3Djpg%26ixid%3DMnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjc1NzA5Njg2%26ixlib%3Drb-4.0.3%26q%3D60%26w%3D1200%26auto%3Dformat%26h%3D630%26mark-w%3D64%26mark-align%3Dtop%252Cleft%26mark-pad%3D50%26blend-mode%3Dnormal%26blend-alpha%3D10%26blend-w%3D1%26mark%3Dhttps%253A%252F%252Fimages.unsplash.com%252Fopengraph%252Flogo.png%26blend%3D000000&type=sc960_832" />
 </head>
 
 <body>
@@ -82,6 +79,7 @@
         <div>
             <ul class="navbar_menu">
                 <li class="navbar_menu_list"><a href="{{ url_for('memory') }}">Home</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('show_all') }}">ALL</a></li>
                 <li class="navbar_menu_list"><a href="{{ url_for('create') }}">Add</a></li>
                 <li class="navbar_menu_list"><a href="{{ url_for('home') }}">Logout</a></li>
             </ul>

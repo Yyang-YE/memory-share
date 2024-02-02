@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>추억 추가</title>
+    <title>추억 추가하기</title>
     <style>
         .title {
             background-color: rgb(170, 199, 211);
@@ -42,6 +42,17 @@
             align-content: center;
             flex-wrap: wrap;
         }
+
+        #exp_in {
+            margin-top: 5px;
+            height: 80px;
+            width: 250px;
+        }
+
+        .confirm_btn {
+            margin-top: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -52,6 +63,7 @@
         <div>
             <ul class="navbar_menu">
                 <li class="navbar_menu_list"><a href="{{ url_for('memory') }}">Home</a></li>
+                <li class="navbar_menu_list"><a href="{{ url_for('show_all') }}">ALL</a></li>
                 <li class="navbar_menu_list"><a href="{{ url_for('create') }}">Add</a></li>
                 <li class="navbar_menu_list"><a href="{{ url_for('home') }}">Logout</a></li>
             </ul>
@@ -67,12 +79,15 @@
             <div>
                 <label for="file">파일 선택:</label>
                 <input type="file" id="file" name="file" accept="image/*">
-            <div>
+            </div>
             <div>날짜: <input type="text" name="date"></div>
             <div>장소: <input type="text" name="place"></div>
-            <div>한 줄 설명: <input type="text" name="explanation"></div>
+            <div>한 줄 설명:<br><textarea id="exp_in" name="explanation" rows="4"></textarea></div>
         </div>
-        <button type="submit" class="confirm_btn">확인</button>
+        <div class="confirm_btn">
+            <button type="submit" class="confirm_btn">확인</button>
+        </div>
     </form>
 </body>
+
 </html>
